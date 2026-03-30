@@ -1,308 +1,577 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Save Muni — See what's at risk near you</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8f8f7; color: #1a1a1a; }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Save Muni — See what's at risk near you</title>
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Lato:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
 
-.wrap { max-width: 760px; margin: 0 auto; padding: 2rem 1.25rem; }
+            body {
+                font-family: "Lato", sans-serif;
+                background-color: #fff;
+                color: #000;
+            }
 
-h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.35rem; }
-.subtitle { font-size: 0.9rem; color: #555; line-height: 1.5; margin-bottom: 1.25rem; }
+            .wrap {
+                max-width: 740px;
+                margin: 0 auto;
+                padding: 2.5rem 1.25rem;
+            }
 
-.crisis { background: #fff3cd; border-left: 3px solid #e6a817; padding: 0.6rem 0.9rem; font-size: 0.825rem; color: #7a4f00; line-height: 1.5; margin-bottom: 1.25rem; border-radius: 0 4px 4px 0; }
+            h1 {
+                font-family: "Special Elite", cursive;
+                font-size: 2rem;
+                line-height: 1.2;
+                margin-bottom: 0.5rem;
+                color: #1c1208;
+            }
 
-.input-row { display: flex; gap: 8px; margin-bottom: 0.75rem; }
-.input-row input {
-  flex: 1; padding: 0.6rem 0.85rem; font-size: 1rem;
-  border: 1px solid #ccc; border-radius: 6px; background: #fff;
-  outline: none;
-}
-.input-row input:focus { border-color: #1a1a1a; box-shadow: 0 0 0 2px rgba(0,0,0,0.07); }
-.btn {
-  padding: 0.6rem 1.25rem; font-size: 0.9rem; font-weight: 500;
-  background: #1a1a1a; color: #fff; border: none; border-radius: 6px;
-  cursor: pointer; white-space: nowrap;
-}
-.btn:hover { background: #333; }
-.btn:active { transform: scale(0.98); }
-.btn:disabled { background: #999; cursor: default; }
+            .subtitle {
+                font-size: 0.95rem;
+                color: #333;
+                line-height: 1.6;
+                margin-bottom: 1.5rem;
+            }
 
-.status { font-size: 0.825rem; color: #666; min-height: 18px; margin-bottom: 0.75rem; }
-.status.error { color: #c0392b; }
+            .crisis {
+                border: 2px solid #000;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+                line-height: 1.6;
+                margin-bottom: 1.75rem;
+                background: #e8005a;
+                color: #fff;
+                /*transform: rotate(-0.4deg);*/
+                box-shadow: 4px 4px 0 #000;
+            }
+            .crisis strong {
+                font-weight: 700;
+            }
+            .crisis a {
+                color: #fff;
+            }
 
-#map { width: 100%; height: 460px; border-radius: 8px; border: 1px solid #ddd; display: none; margin-bottom: 1rem; }
+            .input-row {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 0.6rem;
+            }
+            .input-row input {
+                flex: 1;
+                padding: 0.65rem 0.9rem;
+                font-size: 1rem;
+                font-family: "Lato", sans-serif;
+                border: 2px solid #000;
+                border-radius: 0;
+                background: #fff;
+                color: #000;
+                outline: none;
+                box-shadow: 2px 2px 0 #000;
+            }
+            .input-row input:focus {
+                box-shadow: 3px 3px 0 #e8005a;
+                border-color: #e8005a;
+            }
+            .input-row input::placeholder {
+                color: #999;
+            }
 
-.nearby-section { display: none; }
-.section-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #888; margin-bottom: 0.6rem; }
-.route-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }
-.tag {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
-  text-decoration: none; border: 1.5px solid;
-}
-.tag .num { font-weight: 700; }
-.tag:hover { filter: brightness(0.92); }
+            .btn {
+                padding: 0.65rem 1.25rem;
+                font-family: "Special Elite", cursive;
+                font-size: 0.95rem;
+                background: #000;
+                color: #fff;
+                border: 2px solid #000;
+                border-radius: 0;
+                cursor: pointer;
+                white-space: nowrap;
+                box-shadow: 3px 3px 0 #e8005a;
+                transition:
+                    transform 0.08s,
+                    box-shadow 0.08s;
+            }
+            .btn:hover {
+                background: #e8005a;
+                border-color: #e8005a;
+            }
+            .btn:active {
+                transform: translate(2px, 2px);
+                box-shadow: 1px 1px 0 #e8005a;
+            }
+            .btn:disabled {
+                background: #999;
+                border-color: #999;
+                box-shadow: none;
+                cursor: default;
+            }
 
-.disclaimer { font-size: 0.75rem; color: #999; margin-top: 1rem; line-height: 1.5; }
+            .status {
+                font-size: 0.825rem;
+                color: #555;
+                min-height: 20px;
+                margin-bottom: 0.5rem;
+                font-style: italic;
+            }
+            .status.error {
+                color: #e8005a;
+                font-style: normal;
+                font-weight: 700;
+            }
 
-.no-nearby { font-size: 0.875rem; color: #555; padding: 0.5rem 0 1rem; }
+            #map {
+                width: 100%;
+                height: 460px;
+                display: none;
+                margin-bottom: 1.25rem;
+                border: 2px solid #000;
+                box-shadow: 4px 4px 0 #000;
+            }
 
-.share-row { margin-top: 0.5rem; }
-.share-btn {
-  background: none; border: 1px solid #ccc; color: #555;
-  padding: 0.4rem 0.85rem; border-radius: 6px; font-size: 0.8rem; cursor: pointer;
-}
-.share-btn:hover { border-color: #999; color: #1a1a1a; }
-.share-copied { font-size: 0.8rem; color: #27ae60; margin-left: 8px; display: none; }
+            .legend {
+                display: none;
+                align-items: center;
+                gap: 18px;
+                font-size: 0.78rem;
+                color: #555;
+                margin-bottom: 0.6rem;
+                flex-wrap: wrap;
+            }
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .legend-line {
+                width: 26px;
+                height: 4px;
+            }
+            .legend-line.nearby {
+                background: #000;
+            }
+            .legend-line.other {
+                background: #ccc;
+            }
 
-.legend { display: flex; align-items: center; gap: 16px; font-size: 0.75rem; color: #666; margin-bottom: 0.6rem; flex-wrap: wrap; }
-.legend-item { display: flex; align-items: center; gap: 5px; }
-.legend-line { width: 24px; height: 3px; border-radius: 2px; }
-.legend-line.nearby { background: #555; }
-.legend-line.other { background: #ccc; }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <h1>Which Muni cuts hit your neighborhood?</h1>
-  <p class="subtitle">Enter your SF address to see which threatened bus lines run near you.</p>
+            .nearby-section {
+                display: none;
+                margin-top: 0.25rem;
+            }
 
-  <div class="crisis">
-    Muni faces a <strong>$307M deficit</strong> starting July 2026. Up to 20 routes could be cut if two November ballot measures fail.
-  </div>
+            .section-label {
+                font-family: "Special Elite", cursive;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: #000;
+                margin-bottom: 0.75rem;
+            }
 
-  <div class="input-row">
-    <input type="text" id="address" placeholder="e.g. 500 Castro St" autocomplete="street-address">
-    <button class="btn" id="lookup-btn" onclick="lookup()">Show map</button>
-  </div>
-  <div class="status" id="status"></div>
+            .route-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 1.5rem;
+            }
 
-  <div class="legend" id="legend" style="display:none">
-    <div class="legend-item"><div class="legend-line nearby"></div> At-risk routes near you</div>
-    <div class="legend-item"><div class="legend-line other"></div> Other at-risk routes (faded)</div>
-  </div>
+            .tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 5px 11px;
+                font-size: 0.82rem;
+                font-weight: 700;
+                text-decoration: none;
+                border: 2px solid;
+                border-radius: 0;
+                box-shadow: 2px 2px 0 currentColor;
+                transition:
+                    transform 0.08s,
+                    box-shadow 0.08s;
+            }
+            .tag:hover {
+                transform: translate(1px, 1px);
+                box-shadow: 1px 1px 0 currentColor;
+            }
+            .tag .num {
+                font-size: 1rem;
+            }
 
-  <div id="map"></div>
+            .no-nearby {
+                font-size: 0.9rem;
+                color: #333;
+                padding: 0.25rem 0 1rem;
+                line-height: 1.6;
+            }
 
-  <div class="nearby-section" id="nearby-section">
-    <div class="section-label" id="nearby-label"></div>
-    <div class="route-tags" id="route-tags"></div>
-    <div class="share-row">
-      <button class="share-btn" onclick="share()">Share this address</button>
-      <span class="share-copied" id="share-copied">Link copied!</span>
-    </div>
-    <p class="disclaimer">Routes sourced from the SFMTA Board Workshop, February 2026 (<a href="https://www.sfmta.com/projects/sfmta-budget-planning-fy-2026-27-and-fy-2027-28" target="_blank" rel="noopener">sfmta.com/budget</a>). These are options under consideration — not final decisions.</p>
-  </div>
-</div>
+            .share-row {
+                margin-bottom: 1rem;
+            }
+            .share-btn {
+                font-family: "Special Elite", cursive;
+                background: none;
+                border: 2px solid #000;
+                color: #000;
+                padding: 0.4rem 0.9rem;
+                font-size: 0.82rem;
+                cursor: pointer;
+                border-radius: 0;
+                box-shadow: 2px 2px 0 #000;
+                transition:
+                    transform 0.08s,
+                    box-shadow 0.08s;
+            }
+            .share-btn:hover {
+                background: #f0f0f0;
+            }
+            .share-btn:active {
+                transform: translate(1px, 1px);
+                box-shadow: 1px 1px 0 #000;
+            }
+            .share-copied {
+                font-size: 0.82rem;
+                color: #007a3d;
+                margin-left: 10px;
+                font-style: italic;
+                display: none;
+            }
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const PROXIMITY_M = 600; // meters — roughly 7-8 min walk
+            .disclaimer {
+                font-size: 0.75rem;
+                color: #666;
+                line-height: 1.6;
+                border-top: 1px dashed #ccc;
+                padding-top: 0.75rem;
+            }
+            .disclaimer a {
+                color: #000;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <h1>Which Muni lines are<br />at risk near you?</h1>
+            <p class="subtitle">
+                Type your SF address and see which threatened bus routes run
+                near you.
+            </p>
 
-const ROUTE_COLORS = {
-  "2":   "#e74c3c",
-  "6":   "#e67e22",
-  "15":  "#2980b9",
-  "18":  "#27ae60",
-  "23":  "#8e44ad",
-  "27":  "#c0392b",
-  "31":  "#16a085",
-  "33":  "#d4ac0d",
-  "35":  "#6c3483",
-  "36":  "#117a65",
-  "37":  "#a04000",
-  "39":  "#1f618d",
-  "55":  "#922b21",
-  "56":  "#1e8449",
-  "57":  "#7d6608",
-  "58":  "#1a5276",
-  "66":  "#784212",
-  "67":  "#4a235a",
-  "1X":  "#b7950b",
-  "30X": "#935116",
-};
+            <div class="crisis">
+                Muni is facing a <strong>$307M budget deficit</strong>. If two
+                ballot measures fail this November, up to
+                <a
+                    href="https://www.sfmta.com/media/44326/download?inline"
+                    target="_blank"
+                    rel="noopener"
+                    ><strong>20 bus routes</strong></a
+                >
+                get cut, wait times double, and late-night service gets gutted.
+            </div>
 
-function routeColor(routeId) {
-  return ROUTE_COLORS[routeId] || "#555";
-}
+            <div class="input-row">
+                <input
+                    type="text"
+                    id="address"
+                    placeholder="e.g. 500 Castro St"
+                    autocomplete="street-address"
+                />
+                <button class="btn" id="lookup-btn" onclick="lookup()">
+                    Show map
+                </button>
+            </div>
+            <div class="status" id="status"></div>
 
-// Lighten a hex color for tag background
-function colorBg(hex) {
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},0.1)`;
-}
+            <div class="legend" id="legend">
+                <div class="legend-item">
+                    <div class="legend-line nearby"></div>
+                    Routes near you
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line other"></div>
+                    Other at-risk routes
+                </div>
+            </div>
 
-function setStatus(msg, isError = false) {
-  const el = document.getElementById('status');
-  el.textContent = msg;
-  el.className = 'status' + (isError ? ' error' : '');
-}
+            <div id="map"></div>
 
-let map = null;
-let routeData = null;
+            <div class="nearby-section" id="nearby-section">
+                <div class="section-label" id="nearby-label"></div>
+                <div class="route-tags" id="route-tags"></div>
+                <div class="share-row">
+                    <button class="share-btn" onclick="share()">
+                        ↗ Share this map
+                    </button>
+                    <span class="share-copied" id="share-copied"
+                        >Link copied!</span
+                    >
+                </div>
+            </div>
 
-// Haversine distance in meters
-function distanceM(lat1, lng1, lat2, lng2) {
-  const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
+            <p class="disclaimer">
+                Route list from the
+                <a
+                    href="https://www.sfmta.com/media/44326/download?inline"
+                    target="_blank"
+                    rel="noopener"
+                    >2026 SFMTA Board Workshop</a
+                >. Nothing is final yet!
+            </p>
+        </div>
 
-function routeIsNearby(shapes, userLat, userLng) {
-  for (const shape of shapes) {
-    for (const [lat, lng] of shape) {
-      if (distanceM(userLat, userLng, lat, lng) <= PROXIMITY_M) return true;
-    }
-  }
-  return false;
-}
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+            const PROXIMITY_M = 600;
 
-async function lookup() {
-  const addr = document.getElementById('address').value.trim();
-  if (!addr) { setStatus('Enter your SF address.', true); return; }
+            const ROUTE_COLORS = {
+                2: "#c0392b",
+                6: "#d35400",
+                15: "#1a5276",
+                18: "#1e8449",
+                23: "#6c3483",
+                27: "#a93226",
+                31: "#117a65",
+                33: "#b7770d",
+                35: "#4a235a",
+                36: "#0e6655",
+                37: "#784212",
+                39: "#154360",
+                55: "#7b241c",
+                56: "#196f3d",
+                57: "#7d6608",
+                58: "#1f618d",
+                66: "#6e2f1a",
+                67: "#512e5f",
+                "1X": "#9a7d0a",
+                "30X": "#873600",
+            };
 
-  const btn = document.getElementById('lookup-btn');
-  btn.disabled = true;
-  setStatus('Looking up address…');
+            function routeColor(id) {
+                return ROUTE_COLORS[id] || "#555";
+            }
 
-  const fullAddr = /san francisco|,\s*sf\b/i.test(addr) ? addr : addr + ', San Francisco, CA';
-  let lat, lng;
-  try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddr)}&limit=1&countrycodes=us`,
-      { headers: { 'Accept-Language': 'en', 'User-Agent': 'MuniAwarenessTool/1.0' } }
-    );
-    const data = await res.json();
-    if (!data.length) { setStatus('Address not found. Try a nearby intersection.', true); btn.disabled = false; return; }
-    lat = parseFloat(data[0].lat);
-    lng = parseFloat(data[0].lon);
-  } catch(e) {
-    setStatus('Geocoding failed — check your connection.', true);
-    btn.disabled = false;
-    return;
-  }
+            function colorBg(hex) {
+                const r = parseInt(hex.slice(1, 3), 16);
+                const g = parseInt(hex.slice(3, 5), 16);
+                const b = parseInt(hex.slice(5, 7), 16);
+                return `rgba(${r},${g},${b},0.1)`;
+            }
 
-  setStatus('Loading route data…');
-  if (!routeData) {
-    try {
-      const res = await fetch('routes.json');
-      routeData = await res.json();
-    } catch(e) {
-      setStatus('Could not load route data.', true);
-      btn.disabled = false;
-      return;
-    }
-  }
+            function setStatus(msg, isError = false) {
+                const el = document.getElementById("status");
+                el.textContent = msg;
+                el.className = "status" + (isError ? " error" : "");
+            }
 
-  setStatus('');
-  btn.disabled = false;
-  renderMap(lat, lng);
-}
+            let map = null;
+            let routeData = null;
 
-function renderMap(userLat, userLng) {
-  const mapEl = document.getElementById('map');
-  mapEl.style.display = 'block';
-  document.getElementById('legend').style.display = 'flex';
+            function distanceM(lat1, lng1, lat2, lng2) {
+                const R = 6371000;
+                const dLat = ((lat2 - lat1) * Math.PI) / 180;
+                const dLng = ((lng2 - lng1) * Math.PI) / 180;
+                const a =
+                    Math.sin(dLat / 2) ** 2 +
+                    Math.cos((lat1 * Math.PI) / 180) *
+                        Math.cos((lat2 * Math.PI) / 180) *
+                        Math.sin(dLng / 2) ** 2;
+                return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            }
 
-  if (!map) {
-    map = L.map('map');
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© <a href="https://carto.com/">CARTO</a> © <a href="https://openstreetmap.org/">OSM</a>',
-      maxZoom: 19
-    }).addTo(map);
-  } else {
-    map.eachLayer(layer => { if (!(layer instanceof L.TileLayer)) map.removeLayer(layer); });
-  }
+            function routeIsNearby(shapes, lat, lng) {
+                for (const shape of shapes)
+                    for (const [slat, slng] of shape)
+                        if (distanceM(lat, lng, slat, slng) <= PROXIMITY_M)
+                            return true;
+                return false;
+            }
 
-  const nearby = [];
-  const other = [];
+            async function lookup() {
+                const addr = document.getElementById("address").value.trim();
+                if (!addr) {
+                    setStatus("Enter an address first.", true);
+                    return;
+                }
 
-  for (const [routeId, route] of Object.entries(routeData)) {
-    const isNearby = routeIsNearby(route.shapes, userLat, userLng);
-    (isNearby ? nearby : other).push({ routeId, route });
-  }
+                const btn = document.getElementById("lookup-btn");
+                btn.disabled = true;
+                setStatus("Looking up your address…");
 
-  // Draw far routes first (underneath), nearby on top
-  for (const { routeId, route } of other) {
-    const color = routeColor(routeId);
-    for (const shape of route.shapes) {
-      L.polyline(shape, { color, weight: 2, opacity: 0.25 }).addTo(map);
-    }
-  }
-  for (const { routeId, route } of nearby) {
-    const color = routeColor(routeId);
-    for (const shape of route.shapes) {
-      L.polyline(shape, { color, weight: 4.5, opacity: 0.9 })
-        .bindTooltip(`<b>${routeId}</b> ${route.name}`, { sticky: true })
-        .addTo(map);
-    }
-  }
+                const fullAddr = /san francisco|,\s*sf\b/i.test(addr)
+                    ? addr
+                    : addr + ", San Francisco, CA";
+                let lat, lng;
+                try {
+                    const res = await fetch(
+                        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddr)}&limit=1&countrycodes=us`,
+                        {
+                            headers: {
+                                "Accept-Language": "en",
+                                "User-Agent": "MuniAwarenessTool/1.0",
+                            },
+                        },
+                    );
+                    const data = await res.json();
+                    if (!data.length) {
+                        setStatus(
+                            "Can't find that address. Try a nearby intersection.",
+                            true,
+                        );
+                        btn.disabled = false;
+                        return;
+                    }
+                    lat = parseFloat(data[0].lat);
+                    lng = parseFloat(data[0].lon);
+                } catch (e) {
+                    setStatus(
+                        "Something went wrong with the address lookup. Check your connection.",
+                        true,
+                    );
+                    btn.disabled = false;
+                    return;
+                }
 
-  // User marker
-  L.circleMarker([userLat, userLng], {
-    radius: 9, fillColor: '#2980b9', color: '#fff', weight: 2, fillOpacity: 1
-  }).addTo(map);
+                if (!routeData) {
+                    setStatus("Loading route data…");
+                    try {
+                        routeData = await fetch("routes.json").then((r) =>
+                            r.json(),
+                        );
+                    } catch (e) {
+                        setStatus(
+                            "Could not load route data. Try refreshing.",
+                            true,
+                        );
+                        btn.disabled = false;
+                        return;
+                    }
+                }
 
-  // Center on user at neighborhood zoom — routes are citywide so fitting to them zooms out too far
-  map.setView([userLat, userLng], 14);
+                setStatus("");
+                btn.disabled = false;
+                renderMap(lat, lng);
+            }
 
-  showNearbySummary(nearby);
-}
+            function renderMap(userLat, userLng) {
+                document.getElementById("map").style.display = "block";
+                document.getElementById("legend").style.display = "flex";
 
-function showNearbySummary(nearby) {
-  const section = document.getElementById('nearby-section');
-  const label = document.getElementById('nearby-label');
-  const tags = document.getElementById('route-tags');
-  section.style.display = 'block';
+                if (!map) {
+                    map = L.map("map", { zoomControl: true });
+                    L.tileLayer(
+                        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        {
+                            attribution:
+                                '© <a href="https://openstreetmap.org/">OpenStreetMap</a>',
+                            maxZoom: 19,
+                            opacity: 0.55,
+                        },
+                    ).addTo(map);
+                } else {
+                    map.eachLayer((l) => {
+                        if (!(l instanceof L.TileLayer)) map.removeLayer(l);
+                    });
+                }
 
-  if (nearby.length === 0) {
-    label.textContent = 'No at-risk routes within walking distance';
-    tags.innerHTML = `<p class="no-nearby">No threatened routes have stops within ${PROXIMITY_M}m of your address — but all routes shown on the map are at risk.</p>`;
-    return;
-  }
+                const nearby = [],
+                    other = [];
+                for (const [routeId, route] of Object.entries(routeData))
+                    (routeIsNearby(route.shapes, userLat, userLng)
+                        ? nearby
+                        : other
+                    ).push({ routeId, route });
 
-  label.textContent = `${nearby.length} at-risk route${nearby.length > 1 ? 's' : ''} near you`;
-  tags.innerHTML = nearby
-    .map(({ routeId, route }) => {
-      const color = routeColor(routeId);
-      return `<a class="tag" href="https://www.sfmta.com/${encodeURIComponent(routeId)}" target="_blank" rel="noopener"
-          style="color:${color}; border-color:${color}; background:${colorBg(color)}">
-          <span class="num">${routeId}</span><span>${route.name}</span>
-        </a>`;
-    }).join('');
-}
+                for (const { routeId, route } of other) {
+                    const color = routeColor(routeId);
+                    for (const shape of route.shapes)
+                        L.polyline(shape, {
+                            color,
+                            weight: 2,
+                            opacity: 0.2,
+                        }).addTo(map);
+                }
+                for (const { routeId, route } of nearby) {
+                    const color = routeColor(routeId);
+                    for (const shape of route.shapes)
+                        L.polyline(shape, { color, weight: 5, opacity: 0.9 })
+                            .bindTooltip(`<b>${routeId}</b> ${route.name}`, {
+                                sticky: true,
+                            })
+                            .addTo(map);
+                }
 
-function share() {
-  const addr = document.getElementById('address').value.trim();
-  const url = new URL(location.href);
-  url.searchParams.set('address', addr);
-  navigator.clipboard.writeText(url.toString()).then(() => {
-    const el = document.getElementById('share-copied');
-    el.style.display = 'inline';
-    setTimeout(() => el.style.display = 'none', 2500);
-  });
-}
+                // User dot
+                L.circleMarker([userLat, userLng], {
+                    radius: 8,
+                    fillColor: "#e8005a",
+                    color: "#000",
+                    weight: 2,
+                    fillOpacity: 1,
+                }).addTo(map);
 
-// Pre-fill + auto-run from URL param
-const params = new URLSearchParams(location.search);
-const preAddr = params.get('address');
-if (preAddr) {
-  document.getElementById('address').value = preAddr;
-  window.addEventListener('load', lookup);
-}
+                map.setView([userLat, userLng], 14);
+                showNearbySummary(nearby);
+            }
 
-document.getElementById('address').addEventListener('keydown', e => {
-  if (e.key === 'Enter') lookup();
-});
-</script>
-</body>
+            function showNearbySummary(nearby) {
+                const section = document.getElementById("nearby-section");
+                const label = document.getElementById("nearby-label");
+                const tags = document.getElementById("route-tags");
+                section.style.display = "block";
+
+                if (!nearby.length) {
+                    label.textContent =
+                        "None of the at-risk routes pass near you";
+                    tags.innerHTML = `<p class="no-nearby">No threatened routes run within ${PROXIMITY_M}m of your address. That said, all the routes on the map are still on the chopping block citywide.</p>`;
+                    return;
+                }
+
+                label.textContent = `${nearby.length} route${nearby.length > 1 ? "s" : ""} near you could be cut`;
+                tags.innerHTML = nearby
+                    .map(({ routeId, route }) => {
+                        const color = routeColor(routeId);
+                        return `<a class="tag" href="https://www.sfmta.com/${encodeURIComponent(routeId)}" target="_blank" rel="noopener"
+        style="color:${color}; border-color:${color}; background:${colorBg(color)}">
+        <span class="num">${routeId}</span><span>${route.name}</span>
+      </a>`;
+                    })
+                    .join("");
+            }
+
+            function share() {
+                const addr = document.getElementById("address").value.trim();
+                const url = new URL(location.href);
+                url.searchParams.set("address", addr);
+                navigator.clipboard.writeText(url.toString()).then(() => {
+                    const el = document.getElementById("share-copied");
+                    el.style.display = "inline";
+                    setTimeout(() => (el.style.display = "none"), 2500);
+                });
+            }
+
+            const preAddr = new URLSearchParams(location.search).get("address");
+            if (preAddr) {
+                document.getElementById("address").value = preAddr;
+                window.addEventListener("load", lookup);
+            }
+            document
+                .getElementById("address")
+                .addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") lookup();
+                });
+        </script>
+    </body>
 </html>
