@@ -10,7 +10,7 @@
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-            href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=VT323&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Lato:wght@400;700&family=VT323&display=swap"
             rel="stylesheet"
         />
         <style>
@@ -22,8 +22,8 @@
 
             body {
                 font-family: "Lato", sans-serif;
-                background-color: #f5f2eb;
-                color: #000;
+                background-color: #0d0d0d;
+                color: #fff;
             }
 
             .wrap {
@@ -85,33 +85,92 @@
             .destination-text span.fade {
                 opacity: 0;
             }
+            .hero-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                border: 4px solid #aaff00;
+                margin-bottom: 1.5rem;
+            }
+            .hero-text {
+                border-right: 4px solid #aaff00;
+                padding: 1.5rem;
+                display: flex;
+                align-items: center;
+            }
+            .hero-visual {
+                padding: 1.25rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                background: #0a0a0a;
+            }
+            .deco-globe {
+                width: 140px;
+                height: 140px;
+            }
+            .deco-ring {
+                width: 160px;
+                height: 65px;
+            }
+            .deco-stars {
+                font-size: 1.4rem;
+                color: #aaff00;
+                letter-spacing: 0.5em;
+            }
+
             h1 {
-                font-size: 1.6rem;
-                font-family: "Lato", sans-serif;
-                font-weight: 700;
-                margin-bottom: 1rem;
-                color: #111;
+                font-size: 2.8rem;
+                font-family: "Big Shoulders Display", sans-serif;
+                font-weight: 400;
+                margin: 0;
+                color: #aaff00;
+                text-transform: uppercase;
+                letter-spacing: 0.15em;
+                line-height: 1.05;
             }
 
-            h1 + .crisis {
-                margin-top: 0;
-            }
-
-            .crisis {
-                border: 3px solid #000;
-                padding: 0.75rem 1rem;
-                font-size: 0.875rem;
-                line-height: 1.6;
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                border: 4px solid #aaff00;
                 margin-bottom: 1.75rem;
-                background: #e8005a;
-                color: #fff;
-                transform: rotate(-0.4deg);
             }
-            .crisis strong {
-                font-weight: 700;
+            .stat-card {
+                padding: 1.1rem 0.75rem;
+                border-right: 4px solid #aaff00;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 0.35rem;
+                text-align: center;
+                background: #111;
             }
-            .crisis a {
+            .stat-card:last-child {
+                border-right: none;
+            }
+            .stat-card--accent {
+                background: #aaff00;
+            }
+            .stat-card--accent .stat-num,
+            .stat-card--accent .stat-label {
+                color: #000;
+            }
+            .stat-num {
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 2.6rem;
+                color: #aaff00;
+                line-height: 1;
+            }
+            .stat-label {
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.6rem;
+                letter-spacing: 0.28em;
                 color: #fff;
+                text-transform: uppercase;
+                line-height: 1.3;
             }
 
             .input-row {
@@ -122,35 +181,41 @@
             .input-row input {
                 flex: 1;
                 padding: 0.65rem 0.9rem;
-                font-size: 1rem;
-                font-family: "Lato", sans-serif;
-                border: 2px solid #000;
+                font-size: 0.9rem;
+                font-family: "Big Shoulders Display", sans-serif;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                border: 3px solid #333;
                 border-radius: 0;
-                background: #fff;
-                color: #000;
+                background: #000;
+                color: #fff;
                 outline: none;
             }
             .input-row input:focus {
-                border-color: #e8005a;
+                border-color: #aaff00;
+                border-width: 3px;
             }
             .input-row input::placeholder {
-                color: #999;
+                color: #555;
             }
 
             .btn {
                 padding: 0.65rem 1.25rem;
-                font-family: "Lato", sans-serif;
+                font-family: "Big Shoulders Display", sans-serif;
                 font-size: 0.95rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
                 background: #000;
                 color: #fff;
-                border: 2px solid #000;
+                border: 3px solid #333;
                 border-radius: 0;
                 cursor: pointer;
                 white-space: nowrap;
             }
             .btn:hover {
-                background: #e8005a;
-                border-color: #e8005a;
+                background: #aaff00;
+                border-color: #aaff00;
+                color: #000;
             }
             .btn:active {
                 opacity: 0.8;
@@ -163,31 +228,34 @@
             }
 
             .status {
-                font-size: 0.825rem;
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.75rem;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
                 color: #555;
                 min-height: 20px;
                 margin-bottom: 0.5rem;
-                font-style: italic;
             }
             .status.error {
-                color: #e8005a;
-                font-style: normal;
-                font-weight: 700;
+                color: #aaff00;
             }
 
             #map {
                 width: 100%;
                 height: 460px;
                 margin-bottom: 1.25rem;
-                border: 2px solid #000;
+                border: 4px solid #aaff00;
             }
 
             .legend {
                 display: flex;
                 align-items: center;
                 gap: 18px;
-                font-size: 0.78rem;
-                color: #555;
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.7rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: #aaa;
                 margin-bottom: 0.6rem;
                 flex-wrap: wrap;
             }
@@ -201,7 +269,7 @@
                 height: 4px;
             }
             .legend-line.nearby {
-                background: #000;
+                background: #aaff00;
             }
             .legend-line.other {
                 background: #ccc;
@@ -213,11 +281,11 @@
             }
 
             .section-label {
-                font-family: "Lato", sans-serif;
-                font-size: 0.8rem;
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.85rem;
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
-                color: #000;
+                letter-spacing: 0.2em;
+                color: #aaff00;
                 margin-bottom: 0.75rem;
             }
 
@@ -247,8 +315,11 @@
             }
 
             .no-nearby {
-                font-size: 0.9rem;
-                color: #333;
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.78rem;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: #aaa;
                 padding: 0.25rem 0 1rem;
                 line-height: 1.6;
             }
@@ -257,17 +328,19 @@
                 margin-bottom: 1rem;
             }
             .share-btn {
-                font-family: "Lato", sans-serif;
+                font-family: "Big Shoulders Display", sans-serif;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
                 background: none;
-                border: 2px solid #000;
-                color: #000;
+                border: 2px solid #aaff00;
+                color: #aaff00;
                 padding: 0.4rem 0.9rem;
                 font-size: 0.82rem;
                 cursor: pointer;
                 border-radius: 0;
             }
             .share-btn:hover {
-                background: #eae7e0;
+                background: #1a1a1a;
             }
             .share-copied {
                 font-size: 0.82rem;
@@ -278,46 +351,165 @@
             }
 
             .disclaimer {
-                font-size: 0.75rem;
-                color: #666;
-                line-height: 1.6;
-                border-top: 1px solid #ccc;
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.65rem;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                color: #555;
+                line-height: 1.7;
+                border-top: 1px solid #333;
                 padding-top: 0.75rem;
             }
             .disclaimer a {
-                color: #000;
+                color: #aaff00;
+            }
+            .smiley {
+                color: #aaff00;
+            }
+            @media (max-width: 540px) {
+                .hero-grid {
+                    grid-template-columns: 1fr;
+                }
+                .hero-text {
+                    border-right: none;
+                    border-bottom: 4px solid #aaff00;
+                }
+                h1 {
+                    font-size: 2rem;
+                }
+                .stats-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .stat-card:nth-child(2) {
+                    border-right: none;
+                }
+                .stat-card:nth-child(1),
+                .stat-card:nth-child(2) {
+                    border-bottom: 4px solid #aaff00;
+                }
+                .stat-num {
+                    font-size: 2rem;
+                }
             }
         </style>
     </head>
     <body>
         <div class="wrap">
             <div class="destination-blind">
-                <div class="destination-number"><span id="blind-number">2</span></div>
-                <div class="destination-text"><span id="blind-name">Sutter</span></div>
+                <div class="destination-number">
+                    <span id="blind-number">2</span>
+                </div>
+                <div class="destination-text">
+                    <span id="blind-name">Sutter</span>
+                </div>
             </div>
-            <h1>Which Muni lines are at risk near you?</h1>
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <h1>Which Muni lines are at risk near you?</h1>
+                </div>
+                <div class="hero-visual">
+                    <svg
+                        class="deco-globe"
+                        viewBox="0 0 200 200"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle
+                            cx="100"
+                            cy="100"
+                            r="80"
+                            stroke="#aaff00"
+                            stroke-width="4"
+                        />
+                        <ellipse
+                            cx="100"
+                            cy="100"
+                            rx="80"
+                            ry="28"
+                            stroke="#aaff00"
+                            stroke-width="3.5"
+                        />
+                        <ellipse
+                            cx="100"
+                            cy="68"
+                            rx="62"
+                            ry="21"
+                            stroke="#aaff00"
+                            stroke-width="3"
+                        />
+                        <ellipse
+                            cx="100"
+                            cy="132"
+                            rx="62"
+                            ry="21"
+                            stroke="#aaff00"
+                            stroke-width="3"
+                        />
+                        <ellipse
+                            cx="100"
+                            cy="100"
+                            rx="28"
+                            ry="80"
+                            stroke="#aaff00"
+                            stroke-width="3"
+                        />
+                    </svg>
+                    <svg
+                        class="deco-ring"
+                        viewBox="0 0 220 90"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <ellipse
+                            cx="110"
+                            cy="45"
+                            rx="105"
+                            ry="40"
+                            stroke="#aaff00"
+                            stroke-width="4"
+                        />
+                        <ellipse
+                            cx="110"
+                            cy="45"
+                            rx="72"
+                            ry="27"
+                            stroke="#aaff00"
+                            stroke-width="3"
+                        />
+                        <circle cx="110" cy="45" r="9" fill="#aaff00" />
+                    </svg>
+                    <div class="deco-stars">✦ ✦ ✦</div>
+                </div>
+            </div>
 
-            <div class="crisis">
-                Muni is facing a <strong>$307M budget deficit</strong>. If two
-                ballot measures fail this November, up to
-                <a
-                    href="https://www.sfmta.com/media/44326/download?inline"
-                    target="_blank"
-                    rel="noopener"
-                    ><strong>20 bus routes</strong></a
-                >
-                get cut, wait times double, and late-night service gets gutted.
+            <div class="stats-grid">
+                <div class="stat-card stat-card--accent">
+                    <div class="stat-num">$307M</div>
+                    <div class="stat-label">BUDGET DEFICIT</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">20</div>
+                    <div class="stat-label">ROUTES ELIMINATED</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">2X</div>
+                    <div class="stat-label">WAIT TIMES</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-num">0</div>
+                    <div class="stat-label">LATE-NIGHT SERVICE</div>
+                </div>
             </div>
 
             <div class="input-row">
                 <input
                     type="text"
                     id="address"
-                    placeholder="e.g. 500 Castro St"
+                    placeholder="YOUR SF ADDRESS"
                     autocomplete="street-address"
                 />
                 <button class="btn" id="lookup-btn" onclick="lookup()">
-                    Show map
+                    Find my routes
                 </button>
             </div>
             <div class="status" id="status"></div>
@@ -340,7 +532,7 @@
                 <div class="route-tags" id="route-tags"></div>
                 <div class="share-row">
                     <button class="share-btn" onclick="share()">
-                        ↗ Share this map
+                        ↗ Spread the word
                     </button>
                     <span class="share-copied" id="share-copied"
                         >Link copied!</span
@@ -349,13 +541,13 @@
             </div>
 
             <p class="disclaimer">
-                Route list from the
+                Source:
                 <a
                     href="https://www.sfmta.com/media/44326/download?inline"
                     target="_blank"
                     rel="noopener"
                     >2026 SFMTA Board Workshop</a
-                >. Nothing is final yet!
+                >. Nothing is final — fight back. <span class="smiley">☺</span>
             </p>
         </div>
 
@@ -385,7 +577,10 @@
             ];
             for (let i = BLIND_ROUTES.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [BLIND_ROUTES[i], BLIND_ROUTES[j]] = [BLIND_ROUTES[j], BLIND_ROUTES[i]];
+                [BLIND_ROUTES[i], BLIND_ROUTES[j]] = [
+                    BLIND_ROUTES[j],
+                    BLIND_ROUTES[i],
+                ];
             }
             let blindIdx = 0;
             const blindNumber = document.getElementById("blind-number");
