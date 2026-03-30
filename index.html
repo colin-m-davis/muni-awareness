@@ -565,7 +565,7 @@
             const preAddr = new URLSearchParams(location.search).get("address");
             if (preAddr) {
                 document.getElementById("address").value = preAddr;
-                window.addEventListener("load", lookup);
+                lookup();
             }
             document
                 .getElementById("address")
