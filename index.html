@@ -136,14 +136,13 @@
             #map {
                 width: 100%;
                 height: 460px;
-                display: none;
                 margin-bottom: 1.25rem;
                 border: 2px solid #000;
                 box-shadow: 4px 4px 0 #000;
             }
 
             .legend {
-                display: none;
+                display: flex;
                 align-items: center;
                 gap: 18px;
                 font-size: 0.78rem;
@@ -337,26 +336,26 @@
             const PROXIMITY_M = 600;
 
             const ROUTE_COLORS = {
-                2: "#c0392b",
-                6: "#d35400",
-                15: "#1a5276",
-                18: "#1e8449",
-                23: "#6c3483",
-                27: "#a93226",
-                31: "#117a65",
-                33: "#b7770d",
-                35: "#4a235a",
-                36: "#0e6655",
-                37: "#784212",
-                39: "#154360",
-                55: "#7b241c",
-                56: "#196f3d",
-                57: "#7d6608",
-                58: "#1f618d",
-                66: "#6e2f1a",
-                67: "#512e5f",
-                "1X": "#9a7d0a",
-                "30X": "#873600",
+                2: "#e74c3c",
+                6: "#f5800d",
+                15: "#2e86de",
+                18: "#00b341",
+                23: "#7d3aed",
+                27: "#d1144e",
+                31: "#00a896",
+                33: "#f0a500",
+                35: "#9400d3",
+                36: "#00c07f",
+                37: "#ff9100",
+                39: "#1565c0",
+                55: "#d81b60",
+                56: "#43a047",
+                57: "#e6ac00",
+                58: "#1976d2",
+                66: "#ff5722",
+                67: "#5c35d4",
+                "1X": "#aecd38",
+                "30X": "#f4511e",
             };
 
             function routeColor(id) {
@@ -378,6 +377,8 @@
 
             let map = null;
             let routeData = null;
+            let routePolylines = {}; // routeId -> [polyline, ...]
+            let userMarker = null;
 
             function distanceM(lat1, lng1, lat2, lng2) {
                 const R = 6371000;
@@ -444,77 +445,46 @@
                     return;
                 }
 
-                if (!routeData) {
-                    setStatus("Loading route data…");
-                    try {
-                        routeData = await fetch("routes.json").then((r) =>
-                            r.json(),
-                        );
-                    } catch (e) {
-                        setStatus(
-                            "Could not load route data. Try refreshing.",
-                            true,
-                        );
-                        btn.disabled = false;
-                        return;
-                    }
-                }
-
                 setStatus("");
                 btn.disabled = false;
                 renderMap(lat, lng);
             }
 
+            function initMap() {
+                map = L.map("map", { zoomControl: true });
+                L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: '© <a href="https://openstreetmap.org/">OpenStreetMap</a>',
+                    maxZoom: 19,
+                    opacity: 0.55,
+                }).addTo(map);
+                map.setView([37.7550, -122.4450], 12);
+
+                for (const [routeId, route] of Object.entries(routeData)) {
+                    const color = routeColor(routeId);
+                    routePolylines[routeId] = route.shapes.map((shape) =>
+                        L.polyline(shape, { color, weight: 3, opacity: 1 })
+                            .bindTooltip(`<b>${routeId}</b> ${route.name}`, { sticky: true })
+                            .addTo(map)
+                    );
+                }
+            }
+
             function renderMap(userLat, userLng) {
-                document.getElementById("map").style.display = "block";
-                document.getElementById("legend").style.display = "flex";
-
-                if (!map) {
-                    map = L.map("map", { zoomControl: true });
-                    L.tileLayer(
-                        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        {
-                            attribution:
-                                '© <a href="https://openstreetmap.org/">OpenStreetMap</a>',
-                            maxZoom: 19,
-                            opacity: 0.55,
-                        },
-                    ).addTo(map);
-                } else {
-                    map.eachLayer((l) => {
-                        if (!(l instanceof L.TileLayer)) map.removeLayer(l);
-                    });
-                }
-
-                const nearby = [],
-                    other = [];
+                const nearby = [], other = [];
                 for (const [routeId, route] of Object.entries(routeData))
-                    (routeIsNearby(route.shapes, userLat, userLng)
-                        ? nearby
-                        : other
-                    ).push({ routeId, route });
+                    (routeIsNearby(route.shapes, userLat, userLng) ? nearby : other)
+                        .push({ routeId, route });
 
-                for (const { routeId, route } of other) {
-                    const color = routeColor(routeId);
-                    for (const shape of route.shapes)
-                        L.polyline(shape, {
-                            color,
-                            weight: 2,
-                            opacity: 0.2,
-                        }).addTo(map);
-                }
-                for (const { routeId, route } of nearby) {
-                    const color = routeColor(routeId);
-                    for (const shape of route.shapes)
-                        L.polyline(shape, { color, weight: 5, opacity: 0.9 })
-                            .bindTooltip(`<b>${routeId}</b> ${route.name}`, {
-                                sticky: true,
-                            })
-                            .addTo(map);
-                }
+                for (const { routeId } of other)
+                    for (const pl of routePolylines[routeId])
+                        pl.setStyle({ weight: 2, opacity: 0.3 });
 
-                // User dot
-                L.circleMarker([userLat, userLng], {
+                for (const { routeId } of nearby)
+                    for (const pl of routePolylines[routeId])
+                        pl.setStyle({ weight: 5, opacity: 0.9 });
+
+                if (userMarker) map.removeLayer(userMarker);
+                userMarker = L.circleMarker([userLat, userLng], {
                     radius: 8,
                     fillColor: "#e8005a",
                     color: "#000",
@@ -562,16 +532,25 @@
                 });
             }
 
-            const preAddr = new URLSearchParams(location.search).get("address");
-            if (preAddr) {
-                document.getElementById("address").value = preAddr;
-                lookup();
-            }
             document
                 .getElementById("address")
                 .addEventListener("keydown", (e) => {
                     if (e.key === "Enter") lookup();
                 });
+
+            const preAddr = new URLSearchParams(location.search).get("address");
+
+            fetch("routes.json")
+                .then((r) => r.json())
+                .then((data) => {
+                    routeData = data;
+                    initMap();
+                    if (preAddr) {
+                        document.getElementById("address").value = preAddr;
+                        lookup();
+                    }
+                })
+                .catch(() => setStatus("Could not load route data. Try refreshing.", true));
         </script>
     </body>
 </html>

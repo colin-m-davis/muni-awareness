@@ -72,21 +72,22 @@ all_shape_ids = set()
 for dirs in route_shapes.values():
     all_shape_ids.update(dirs.values())
 
-# shape_id -> list of [lat, lng] (every 4th point)
+# shape_id -> list of [lat, lng] sorted by sequence
 shape_coords = defaultdict(list)
 with open(f"{GTFS_DIR}/shapes.txt", encoding="utf-8-sig") as f:
     reader = csv.DictReader(f)
-    seq_counter = defaultdict(int)
+    raw = defaultdict(list)
     for row in reader:
         sid = row["shape_id"].strip()
         if sid not in all_shape_ids:
             continue
-        seq_counter[sid] += 1
-        if seq_counter[sid] % 4 != 1:
-            continue
+        seq = int(row["shape_pt_sequence"].strip())
         lat = round(float(row["shape_pt_lat"]), 5)
         lng = round(float(row["shape_pt_lon"]), 5)
-        shape_coords[sid].append([lat, lng])
+        raw[sid].append((seq, lat, lng))
+    for sid, pts in raw.items():
+        pts.sort(key=lambda x: x[0])
+        shape_coords[sid] = [[lat, lng] for _, lat, lng in pts]
 
 print(f"Extracted shapes for {len(shape_coords)} shape_ids")
 
