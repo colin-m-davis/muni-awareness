@@ -10,7 +10,7 @@
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-            href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Lato:wght@400;700&family=VT323&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=VT323&display=swap"
             rel="stylesheet"
         />
         <style>
@@ -22,7 +22,7 @@
 
             body {
                 font-family: "Lato", sans-serif;
-                background-color: #fff;
+                background-color: #f5f2eb;
                 color: #000;
             }
 
@@ -40,6 +40,9 @@
                 overflow: hidden;
                 border-radius: 8px;
                 border: 2px solid #444;
+                max-width: 480px;
+                margin-left: auto;
+                margin-right: auto;
             }
             .destination-number {
                 font-family: "VT323", monospace;
@@ -55,35 +58,54 @@
                 min-width: 80px;
                 letter-spacing: 2px;
             }
-            h1 {
+            .destination-number span {
+                transition: opacity 0.15s ease;
+            }
+            .destination-number span.fade {
+                opacity: 0;
+            }
+            .destination-text {
                 font-family: "VT323", monospace;
                 font-size: 2.2rem;
                 line-height: 1.2;
                 color: #ffe066;
                 text-shadow: 0 0 6px rgba(255, 224, 102, 0.4);
                 padding: 0.5rem 0.9rem;
+                flex: 1;
                 display: flex;
                 align-items: center;
-                letter-spacing: 1px;
+                justify-content: center;
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+            .destination-text span {
+                transition: opacity 0.15s ease;
+            }
+            .destination-text span.fade {
+                opacity: 0;
+            }
+            h1 {
+                font-size: 1.6rem;
+                font-family: "Lato", sans-serif;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: #111;
             }
 
-            .subtitle {
-                font-size: 0.95rem;
-                color: #333;
-                line-height: 1.6;
-                margin-bottom: 1.5rem;
+            h1 + .crisis {
+                margin-top: 0;
             }
 
             .crisis {
-                border: 2px solid #000;
+                border: 3px solid #000;
                 padding: 0.75rem 1rem;
                 font-size: 0.875rem;
                 line-height: 1.6;
                 margin-bottom: 1.75rem;
                 background: #e8005a;
                 color: #fff;
-                /*transform: rotate(-0.4deg);*/
-                box-shadow: 4px 4px 0 #000;
+                transform: rotate(-0.4deg);
             }
             .crisis strong {
                 font-weight: 700;
@@ -107,10 +129,8 @@
                 background: #fff;
                 color: #000;
                 outline: none;
-                box-shadow: 2px 2px 0 #000;
             }
             .input-row input:focus {
-                box-shadow: 3px 3px 0 #e8005a;
                 border-color: #e8005a;
             }
             .input-row input::placeholder {
@@ -119,7 +139,7 @@
 
             .btn {
                 padding: 0.65rem 1.25rem;
-                font-family: "Special Elite", cursive;
+                font-family: "Lato", sans-serif;
                 font-size: 0.95rem;
                 background: #000;
                 color: #fff;
@@ -127,18 +147,13 @@
                 border-radius: 0;
                 cursor: pointer;
                 white-space: nowrap;
-                box-shadow: 3px 3px 0 #e8005a;
-                transition:
-                    transform 0.08s,
-                    box-shadow 0.08s;
             }
             .btn:hover {
                 background: #e8005a;
                 border-color: #e8005a;
             }
             .btn:active {
-                transform: translate(2px, 2px);
-                box-shadow: 1px 1px 0 #e8005a;
+                opacity: 0.8;
             }
             .btn:disabled {
                 background: #999;
@@ -165,7 +180,6 @@
                 height: 460px;
                 margin-bottom: 1.25rem;
                 border: 2px solid #000;
-                box-shadow: 4px 4px 0 #000;
             }
 
             .legend {
@@ -199,7 +213,7 @@
             }
 
             .section-label {
-                font-family: "Special Elite", cursive;
+                font-family: "Lato", sans-serif;
                 font-size: 0.8rem;
                 text-transform: uppercase;
                 letter-spacing: 0.1em;
@@ -224,14 +238,9 @@
                 text-decoration: none;
                 border: 2px solid;
                 border-radius: 0;
-                box-shadow: 2px 2px 0 currentColor;
-                transition:
-                    transform 0.08s,
-                    box-shadow 0.08s;
             }
             .tag:hover {
-                transform: translate(1px, 1px);
-                box-shadow: 1px 1px 0 currentColor;
+                opacity: 0.8;
             }
             .tag .num {
                 font-size: 1rem;
@@ -248,7 +257,7 @@
                 margin-bottom: 1rem;
             }
             .share-btn {
-                font-family: "Special Elite", cursive;
+                font-family: "Lato", sans-serif;
                 background: none;
                 border: 2px solid #000;
                 color: #000;
@@ -256,17 +265,9 @@
                 font-size: 0.82rem;
                 cursor: pointer;
                 border-radius: 0;
-                box-shadow: 2px 2px 0 #000;
-                transition:
-                    transform 0.08s,
-                    box-shadow 0.08s;
             }
             .share-btn:hover {
-                background: #f0f0f0;
-            }
-            .share-btn:active {
-                transform: translate(1px, 1px);
-                box-shadow: 1px 1px 0 #000;
+                background: #eae7e0;
             }
             .share-copied {
                 font-size: 0.82rem;
@@ -280,7 +281,7 @@
                 font-size: 0.75rem;
                 color: #666;
                 line-height: 1.6;
-                border-top: 1px dashed #ccc;
+                border-top: 1px solid #ccc;
                 padding-top: 0.75rem;
             }
             .disclaimer a {
@@ -291,13 +292,10 @@
     <body>
         <div class="wrap">
             <div class="destination-blind">
-                <div class="destination-number">20</div>
-                <h1>Which Muni lines are at risk near you?</h1>
+                <div class="destination-number"><span id="blind-number">2</span></div>
+                <div class="destination-text"><span id="blind-name">Sutter</span></div>
             </div>
-            <p class="subtitle">
-                Type your SF address and see which threatened bus routes run
-                near you.
-            </p>
+            <h1>Which Muni lines are at risk near you?</h1>
 
             <div class="crisis">
                 Muni is facing a <strong>$307M budget deficit</strong>. If two
@@ -363,6 +361,48 @@
 
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
+            const BLIND_ROUTES = [
+                ["2", "Sutter"],
+                ["6", "Hayes-Parnassus"],
+                ["15", "Bayview Express"],
+                ["18", "46th Avenue"],
+                ["23", "Monterey"],
+                ["27", "Bryant"],
+                ["31", "Balboa"],
+                ["33", "Ashbury-18th St"],
+                ["35", "Eureka"],
+                ["36", "Teresita"],
+                ["37", "Corbett"],
+                ["39", "Coit"],
+                ["55", "Dogpatch"],
+                ["56", "Rutland"],
+                ["57", "Parkmerced"],
+                ["58", "Lake Merced"],
+                ["66", "Quintara"],
+                ["67", "Bernal Heights"],
+                ["1X", "California Express"],
+                ["30X", "Marina Express"],
+            ];
+            for (let i = BLIND_ROUTES.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [BLIND_ROUTES[i], BLIND_ROUTES[j]] = [BLIND_ROUTES[j], BLIND_ROUTES[i]];
+            }
+            let blindIdx = 0;
+            const blindNumber = document.getElementById("blind-number");
+            const blindName = document.getElementById("blind-name");
+            function cycleBlind() {
+                blindName.classList.add("fade");
+                blindNumber.classList.add("fade");
+                setTimeout(() => {
+                    blindIdx = (blindIdx + 1) % BLIND_ROUTES.length;
+                    blindNumber.textContent = BLIND_ROUTES[blindIdx][0];
+                    blindName.textContent = BLIND_ROUTES[blindIdx][1];
+                    blindName.classList.remove("fade");
+                    blindNumber.classList.remove("fade");
+                }, 350);
+            }
+            setInterval(cycleBlind, 2500);
+
             const PROXIMITY_M = 600;
 
             const ROUTE_COLORS = {
@@ -483,27 +523,33 @@
             function initMap() {
                 map = L.map("map", { zoomControl: true });
                 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                    attribution: '© <a href="https://openstreetmap.org/">OpenStreetMap</a>',
+                    attribution:
+                        '© <a href="https://openstreetmap.org/">OpenStreetMap</a>',
                     maxZoom: 19,
                     opacity: 0.55,
                 }).addTo(map);
-                map.setView([37.7550, -122.4450], 12);
+                map.setView([37.755, -122.445], 12);
 
                 for (const [routeId, route] of Object.entries(routeData)) {
                     const color = routeColor(routeId);
                     routePolylines[routeId] = route.shapes.map((shape) =>
                         L.polyline(shape, { color, weight: 3, opacity: 1 })
-                            .bindTooltip(`<b>${routeId}</b> ${route.name}`, { sticky: true })
-                            .addTo(map)
+                            .bindTooltip(`<b>${routeId}</b> ${route.name}`, {
+                                sticky: true,
+                            })
+                            .addTo(map),
                     );
                 }
             }
 
             function renderMap(userLat, userLng) {
-                const nearby = [], other = [];
+                const nearby = [],
+                    other = [];
                 for (const [routeId, route] of Object.entries(routeData))
-                    (routeIsNearby(route.shapes, userLat, userLng) ? nearby : other)
-                        .push({ routeId, route });
+                    (routeIsNearby(route.shapes, userLat, userLng)
+                        ? nearby
+                        : other
+                    ).push({ routeId, route });
 
                 for (const { routeId } of other)
                     for (const pl of routePolylines[routeId])
@@ -580,7 +626,12 @@
                         lookup();
                     }
                 })
-                .catch(() => setStatus("Could not load route data. Try refreshing.", true));
+                .catch(() =>
+                    setStatus(
+                        "Could not load route data. Try refreshing.",
+                        true,
+                    ),
+                );
         </script>
     </body>
 </html>
