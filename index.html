@@ -10,7 +10,7 @@
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-            href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Lato:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Lato:wght@400;700&family=VT323&display=swap"
             rel="stylesheet"
         />
         <style>
@@ -32,12 +32,39 @@
                 padding: 2.5rem 1.25rem;
             }
 
+            .destination-blind {
+                display: flex;
+                align-items: stretch;
+                background: #1a1a1a;
+                margin-bottom: 1.25rem;
+                overflow: hidden;
+                border-radius: 8px;
+                border: 2px solid #444;
+            }
+            .destination-number {
+                font-family: "VT323", monospace;
+                font-size: 3.5rem;
+                color: #ffe066;
+                text-shadow: 0 0 6px rgba(255, 224, 102, 0.4);
+                background: #111;
+                padding: 0.4rem 0.9rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-right: 2px solid #333;
+                min-width: 80px;
+                letter-spacing: 2px;
+            }
             h1 {
-                font-family: "Special Elite", cursive;
-                font-size: 2rem;
+                font-family: "VT323", monospace;
+                font-size: 2.2rem;
                 line-height: 1.2;
-                margin-bottom: 0.5rem;
-                color: #1c1208;
+                color: #ffe066;
+                text-shadow: 0 0 6px rgba(255, 224, 102, 0.4);
+                padding: 0.5rem 0.9rem;
+                display: flex;
+                align-items: center;
+                letter-spacing: 1px;
             }
 
             .subtitle {
@@ -263,7 +290,10 @@
     </head>
     <body>
         <div class="wrap">
-            <h1>Which Muni lines are<br />at risk near you?</h1>
+            <div class="destination-blind">
+                <div class="destination-number">20</div>
+                <h1>Which Muni lines are at risk near you?</h1>
+            </div>
             <p class="subtitle">
                 Type your SF address and see which threatened bus routes run
                 near you.
