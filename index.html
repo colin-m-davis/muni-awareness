@@ -514,12 +514,51 @@
                 </div>
                 <div class="poster-right">
                     <div class="poster-globe">
-                        <svg class="deco-globe" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="100" cy="100" r="80" stroke="#aaff00" stroke-width="4"/>
-                            <ellipse cx="100" cy="100" rx="80" ry="28" stroke="#aaff00" stroke-width="3.5"/>
-                            <ellipse cx="100" cy="68" rx="62" ry="21" stroke="#aaff00" stroke-width="3"/>
-                            <ellipse cx="100" cy="132" rx="62" ry="21" stroke="#aaff00" stroke-width="3"/>
-                            <ellipse cx="100" cy="100" rx="28" ry="80" stroke="#aaff00" stroke-width="3"/>
+                        <svg
+                            class="deco-globe"
+                            viewBox="0 0 200 200"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle
+                                cx="100"
+                                cy="100"
+                                r="80"
+                                stroke="#aaff00"
+                                stroke-width="4"
+                            />
+                            <ellipse
+                                cx="100"
+                                cy="100"
+                                rx="80"
+                                ry="28"
+                                stroke="#aaff00"
+                                stroke-width="3.5"
+                            />
+                            <ellipse
+                                cx="100"
+                                cy="68"
+                                rx="62"
+                                ry="21"
+                                stroke="#aaff00"
+                                stroke-width="3"
+                            />
+                            <ellipse
+                                cx="100"
+                                cy="132"
+                                rx="62"
+                                ry="21"
+                                stroke="#aaff00"
+                                stroke-width="3"
+                            />
+                            <ellipse
+                                cx="100"
+                                cy="100"
+                                rx="28"
+                                ry="80"
+                                stroke="#aaff00"
+                                stroke-width="3"
+                            />
                         </svg>
                         <div class="deco-stars">✦ ✦ ✦</div>
                     </div>
@@ -528,10 +567,29 @@
                         <div class="stat-label">WAIT TIMES</div>
                     </div>
                     <div class="poster-ring">
-                        <svg class="deco-ring" viewBox="0 0 220 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <ellipse cx="110" cy="45" rx="105" ry="40" stroke="#aaff00" stroke-width="4"/>
-                            <ellipse cx="110" cy="45" rx="72" ry="27" stroke="#aaff00" stroke-width="3"/>
-                            <circle cx="110" cy="45" r="9" fill="#aaff00"/>
+                        <svg
+                            class="deco-ring"
+                            viewBox="0 0 220 90"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <ellipse
+                                cx="110"
+                                cy="45"
+                                rx="105"
+                                ry="40"
+                                stroke="#aaff00"
+                                stroke-width="4"
+                            />
+                            <ellipse
+                                cx="110"
+                                cy="45"
+                                rx="72"
+                                ry="27"
+                                stroke="#aaff00"
+                                stroke-width="3"
+                            />
+                            <circle cx="110" cy="45" r="9" fill="#aaff00" />
                         </svg>
                     </div>
                     <div class="poster-stat-small">
@@ -582,9 +640,18 @@
 
             <div class="cta-block" id="cta-block">
                 <div class="cta-label">Take action</div>
-                <p class="cta-body">Find your District Supervisor and tell them to fight these cuts.</p>
+                <p class="cta-body">
+                    Find your District Supervisor and tell them to fight these
+                    cuts.
+                </p>
                 <div class="cta-links" id="cta-links">
-                    <a class="cta-btn" href="https://sfbos.org" target="_blank" rel="noopener">SF Board of Supervisors →</a>
+                    <a
+                        class="cta-btn"
+                        href="https://sfbos.org"
+                        target="_blank"
+                        rel="noopener"
+                        >SF Board of Supervisors →</a
+                    >
                 </div>
             </div>
 
@@ -595,7 +662,33 @@
                     target="_blank"
                     rel="noopener"
                     >2026 SFMTA Board Workshop</a
-                >. Nothing is final — fight back. <svg class="smiley" viewBox="0 0 16 16" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="#aaff00" stroke-width="1.5"/><circle cx="5.5" cy="6.5" r="1" fill="#aaff00"/><circle cx="10.5" cy="6.5" r="1" fill="#aaff00"/><path d="M5 10c.8 1.2 2 1.8 3 1.8s2.2-.6 3-1.8" stroke="#aaff00" stroke-width="1.5" stroke-linecap="round"/></svg>
+                >
+                / Nothing is final / fight back
+                <svg
+                    class="smiley"
+                    viewBox="0 0 16 16"
+                    width="14"
+                    height="14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+                    <circle
+                        cx="8"
+                        cy="8"
+                        r="7"
+                        stroke="#aaff00"
+                        stroke-width="1.5"
+                    />
+                    <circle cx="5.5" cy="6.5" r="1" fill="#aaff00" />
+                    <circle cx="10.5" cy="6.5" r="1" fill="#aaff00" />
+                    <path
+                        d="M5 10c.8 1.2 2 1.8 3 1.8s2.2-.6 3-1.8"
+                        stroke="#aaff00"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    />
+                </svg>
             </p>
         </div>
 
@@ -860,13 +953,13 @@
                 const ctaBody = document.querySelector(".cta-body");
                 try {
                     const res = await fetch(
-                        `https://data.sfgov.org/resource/f2zs-jevy.json?$where=intersects(polygon,%20%27POINT(${lng}%20${lat})%27)&$limit=1`
+                        `https://data.sfgov.org/resource/f2zs-jevy.json?$where=intersects(polygon,%20%27POINT(${lng}%20${lat})%27)&$limit=1`,
                     );
                     const data = await res.json();
                     if (!data.length) return;
                     const { sup_dist_num, sup_name } = data[0];
                     const nearbyRoutes = Array.from(
-                        document.querySelectorAll("#route-tags .tag .num")
+                        document.querySelectorAll("#route-tags .tag .num"),
                     ).map((el) => el.textContent);
                     const routeList = nearbyRoutes.length
                         ? `Routes near me that could be cut: ${nearbyRoutes.join(", ")}.`
@@ -874,7 +967,8 @@
                     const subject = `Please oppose the proposed Muni service cuts`;
                     const body = `Dear Supervisor ${sup_name},\n\nI am a constituent in District ${sup_dist_num} writing to urge you to oppose the proposed SFMTA budget cuts.\n\n${routeList}\n\nThese cuts would make it significantly harder for me and my neighbors to get around the city. Late-night service cuts starting as early as 9pm will affect workers, students, and residents who depend on Muni.\n\nPlease fight for adequate Muni funding.\n\nThank you,\n[Your name]\n[Your address: ${addr}]`;
                     ctaBody.textContent = `${sup_name} is your District ${sup_dist_num} Supervisor.`;
-                    const email = SUPERVISOR_EMAILS[parseInt(sup_dist_num)] || "";
+                    const email =
+                        SUPERVISOR_EMAILS[parseInt(sup_dist_num)] || "";
                     ctaLinks.innerHTML = `<a class="cta-btn" href="mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}">Email Supervisor ${sup_name} →</a>`;
                 } catch (e) {
                     // silently fail — default CTA remains
