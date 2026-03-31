@@ -350,6 +350,59 @@
                 display: none;
             }
 
+            .cta-block {
+                border: 4px solid #aaff00;
+                padding: 1.25rem 1.5rem;
+                margin-bottom: 1.25rem;
+                background: #0a0a0a;
+            }
+            .cta-label {
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 0.22em;
+                color: #aaff00;
+                margin-bottom: 0.6rem;
+            }
+            .cta-body {
+                font-size: 0.9rem;
+                color: #ccc;
+                line-height: 1.6;
+                margin-bottom: 1rem;
+            }
+            .cta-links {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .cta-btn {
+                font-family: "Big Shoulders Display", sans-serif;
+                font-size: 0.9rem;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: #000;
+                background: #aaff00;
+                border: 3px solid #aaff00;
+                padding: 0.5rem 1rem;
+                text-decoration: none;
+                white-space: nowrap;
+            }
+            .cta-btn:hover {
+                background: #000;
+                color: #aaff00;
+            }
+
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                opacity: 0.07;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+                background-size: 256px 256px;
+                z-index: 9999;
+            }
+
             .disclaimer {
                 font-family: "Big Shoulders Display", sans-serif;
                 font-size: 0.65rem;
@@ -364,7 +417,10 @@
                 color: #aaff00;
             }
             .smiley {
-                color: #aaff00;
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                top: -1px;
             }
             @media (max-width: 540px) {
                 .hero-grid {
@@ -496,8 +552,8 @@
                     <div class="stat-label">WAIT TIMES</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-num">0</div>
-                    <div class="stat-label">LATE-NIGHT SERVICE</div>
+                    <div class="stat-num">9PM</div>
+                    <div class="stat-label">LATE NIGHT BEGINS</div>
                 </div>
             </div>
 
@@ -540,6 +596,14 @@
                 </div>
             </div>
 
+            <div class="cta-block" id="cta-block">
+                <div class="cta-label">Take action</div>
+                <p class="cta-body">The budget isn't final. Enter your address above to find your District Supervisor and send them a message.</p>
+                <div class="cta-links" id="cta-links">
+                    <a class="cta-btn" href="https://sfbos.org" target="_blank" rel="noopener">SF Board of Supervisors →</a>
+                </div>
+            </div>
+
             <p class="disclaimer">
                 Source:
                 <a
@@ -547,7 +611,7 @@
                     target="_blank"
                     rel="noopener"
                     >2026 SFMTA Board Workshop</a
-                >. Nothing is final — fight back. <span class="smiley">☺</span>
+                >. Nothing is final — fight back. <svg class="smiley" viewBox="0 0 16 16" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="#aaff00" stroke-width="1.5"/><circle cx="5.5" cy="6.5" r="1" fill="#aaff00"/><circle cx="10.5" cy="6.5" r="1" fill="#aaff00"/><path d="M5 10c.8 1.2 2 1.8 3 1.8s2.2-.6 3-1.8" stroke="#aaff00" stroke-width="1.5" stroke-linecap="round"/></svg>
             </p>
         </div>
 
@@ -713,6 +777,7 @@
                 setStatus("");
                 btn.disabled = false;
                 renderMap(lat, lng);
+                lookupSupervisor(lat, lng, addr);
             }
 
             function initMap() {
@@ -790,6 +855,46 @@
       </a>`;
                     })
                     .join("");
+            }
+
+            const SUPERVISOR_EMAILS = {
+                1: "chanstaff@sfgov.org",
+                2: "sherrillstaff@sfgov.org",
+                3: "sauterstaff@sfgov.org",
+                4: "wongstaff@sfgov.org",
+                5: "mahmoodstaff@sfgov.org",
+                6: "dorseystaff@sfgov.org",
+                7: "melgarstaff@sfgov.org",
+                8: "mandelmanstaff@sfgov.org",
+                9: "fielderstaff@sfgov.org",
+                10: "waltonstaff@sfgov.org",
+                11: "chenstaff@sfgov.org",
+            };
+
+            async function lookupSupervisor(lat, lng, addr) {
+                const ctaLinks = document.getElementById("cta-links");
+                const ctaBody = document.querySelector(".cta-body");
+                try {
+                    const res = await fetch(
+                        `https://data.sfgov.org/resource/f2zs-jevy.json?$where=intersects(polygon,%20%27POINT(${lng}%20${lat})%27)&$limit=1`
+                    );
+                    const data = await res.json();
+                    if (!data.length) return;
+                    const { sup_dist_num, sup_name } = data[0];
+                    const nearbyRoutes = Array.from(
+                        document.querySelectorAll("#route-tags .tag .num")
+                    ).map((el) => el.textContent);
+                    const routeList = nearbyRoutes.length
+                        ? `Routes near me that could be cut: ${nearbyRoutes.join(", ")}.`
+                        : "Several Muni routes I rely on are at risk.";
+                    const subject = `Please oppose the proposed Muni service cuts`;
+                    const body = `Dear Supervisor ${sup_name},\n\nI am a constituent in District ${sup_dist_num} writing to urge you to oppose the proposed SFMTA budget cuts.\n\n${routeList}\n\nThese cuts would make it significantly harder for me and my neighbors to get around the city. Late-night service cuts starting as early as 9pm will affect workers, students, and residents who depend on Muni.\n\nPlease fight for adequate Muni funding.\n\nThank you,\n[Your name]\n[Your address: ${addr}]`;
+                    ctaBody.textContent = `District ${sup_dist_num} Supervisor ${sup_name} represents your neighborhood. Send them a message urging them to oppose the cuts.`;
+                    const email = SUPERVISOR_EMAILS[parseInt(sup_dist_num)] || "";
+                    ctaLinks.innerHTML = `<a class="cta-btn" href="mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}">Email Supervisor ${sup_name} →</a>`;
+                } catch (e) {
+                    // silently fail — default CTA remains
+                }
             }
 
             function share() {
