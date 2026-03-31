@@ -873,7 +873,7 @@
                         : "Several Muni routes I rely on are at risk.";
                     const subject = `Please oppose the proposed Muni service cuts`;
                     const body = `Dear Supervisor ${sup_name},\n\nI am a constituent in District ${sup_dist_num} writing to urge you to oppose the proposed SFMTA budget cuts.\n\n${routeList}\n\nThese cuts would make it significantly harder for me and my neighbors to get around the city. Late-night service cuts starting as early as 9pm will affect workers, students, and residents who depend on Muni.\n\nPlease fight for adequate Muni funding.\n\nThank you,\n[Your name]\n[Your address: ${addr}]`;
-                    ctaBody.textContent = `${sup_name} is your District ${sup_dist_num} Supervisor. Make your voice heard.`;
+                    ctaBody.textContent = `${sup_name} is your District ${sup_dist_num} Supervisor.`;
                     const email = SUPERVISOR_EMAILS[parseInt(sup_dist_num)] || "";
                     ctaLinks.innerHTML = `<a class="cta-btn" href="mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}">Email Supervisor ${sup_name} →</a>`;
                 } catch (e) {
